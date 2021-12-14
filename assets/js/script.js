@@ -103,15 +103,22 @@ var createTaskActions = function(taskId) {
     // Call for taskFormHandler()
 formEl.addEventListener("submit", taskFormHandler);
 
-    // Function to declare action for button clicks.
+    // Function to declare action for delete button clicks.
 var taskButtonHandler = function(event) {
-    console.log(event.target);
         // tells you exactly when a delete button is clicked
     if (event.target.matches(".delete-btn")) {
             // get the element's task id
         var taskId = event.target.getAttribute("data-task-id");
-        console.log(taskId);
+            // Call for deleteTask()
+        deleteTask(taskId);
     }
+};
+
+
+    // Function to delete a task.
+var deleteTask = function(taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    taskSelected.remove();
 };
 
 
