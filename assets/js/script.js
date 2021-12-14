@@ -1,7 +1,7 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
-    // counter that increments by one each time a task is created (gives each task a unique id)
-var taskIdCounter = 0; 
+var pageContentEl = document.querySelector("#page-content");    // Reference to <main> element's ID tag, which allows for the delete button to work.
+var taskIdCounter = 0;      // counter that increments by one each time a task is created (gives each task a unique id)
 
 
     // Function that declares actions for form user input.
@@ -102,3 +102,18 @@ var createTaskActions = function(taskId) {
 
     // Call for taskFormHandler()
 formEl.addEventListener("submit", taskFormHandler);
+
+    // Function to declare action for button clicks.
+var taskButtonHandler = function(event) {
+    console.log(event.target);
+        // tells you exactly when a delete button is clicked
+    if (event.target.matches(".delete-btn")) {
+            // get the element's task id
+        var taskId = event.target.getAttribute("data-task-id");
+        console.log(taskId);
+    }
+};
+
+
+    // allows for ability to delete a task
+pageContentEl.addEventListener("click", taskButtonHandler);
