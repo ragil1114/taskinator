@@ -1,10 +1,10 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
-    // counter that increments by one each time a task is created
+    // counter that increments by one each time a task is created (gives each task a unique id)
 var taskIdCounter = 0; 
 
 
-    // Function that defines actions for form user input.
+    // Function that declares actions for form user input.
 var taskFormHandler = function(event) {
     event.preventDefault();
         // Variable allowing us to read task name input.
@@ -28,30 +28,33 @@ var taskFormHandler = function(event) {
 };
 
 
-    // Function that defines actions for task items.
+    // Function that declares actions for task items.
 var createTaskEl = function(taskDataObj) {
         // create list item
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
-
+    
         // add task id as a custom data attribute
     listItemEl.setAttribute("data-task-id", taskIdCounter);
 
-        // create div to hold task info and add to list item
+        // create <div> to hold the task info
     var taskInfoEl = document.createElement("div");
     taskInfoEl.className = "task-info";
     taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
-
+    
     listItemEl.appendChild(taskInfoEl);
 
-        // add entire list item to list
+        // used to store the DOM element returned by the createTaskActions()
+    var taskActionsEl = createTaskActions(taskIdCounter);
+    listItemEl.appendChild(taskActionsEl);
+        // add entire list item to <li>
     tasksToDoEl.appendChild(listItemEl);
 
         // increase task counter for next unique id
     taskIdCounter++;
 }
 
-    // Function to define dynamically created form elements.
+    // Function to declare actions for dynamically created form elements.
 var createTaskActions = function(taskId) {
         // Variable to create a new <div> element. 
     var actionContainerEl = document.createElement("div");
@@ -71,6 +74,7 @@ var createTaskActions = function(taskId) {
     deleteButtonEl.setAttribute("data-task-id", taskId);
 
     actionContainerEl.appendChild(deleteButtonEl);
+
         // create task status dropdown
     var statusSelectEl = document.createElement("select");
     statusSelectEl.className = "select-status";
@@ -78,13 +82,15 @@ var createTaskActions = function(taskId) {
     statusSelectEl.setAttribute("data-task-id", taskId);
         // Array that declares the dropdown <option> elements
     var statusChoices = ["To Do", "In Progress", "Completed"];
+        // to create <option> elements
     for (var i = 0; i < statusChoices.length; i++) {
-            // create option element
+            // store data for <option>
         var statusOptionEl = document.createElement("option");
+            // returns the value of the array at the given index
         statusOptionEl.textContent = statusChoices[i];
         statusOptionEl.setAttribute("value", statusChoices[i]);
       
-            // append to select
+            // append <option> to <select>
         statusSelectEl.appendChild(statusOptionEl);
     }
 
