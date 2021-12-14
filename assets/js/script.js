@@ -4,7 +4,7 @@ var tasksToDoEl = document.querySelector("#tasks-to-do");
 var taskIdCounter = 0; 
 
 
-    // function that creates a task item
+    // Function that defines actions for form user input.
 var taskFormHandler = function(event) {
     event.preventDefault();
         // Variable allowing us to read task name input.
@@ -28,7 +28,7 @@ var taskFormHandler = function(event) {
 };
 
 
-    // Function that executes input data from user.
+    // Function that defines actions for task items.
 var createTaskEl = function(taskDataObj) {
         // create list item
     var listItemEl = document.createElement("li");
@@ -50,6 +50,48 @@ var createTaskEl = function(taskDataObj) {
         // increase task counter for next unique id
     taskIdCounter++;
 }
+
+    // Function to define dynamically created form elements.
+var createTaskActions = function(taskId) {
+        // Variable to create a new <div> element. 
+    var actionContainerEl = document.createElement("div");
+    actionContainerEl.className = "task-actions";
+        // create edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(editButtonEl);
+
+        // create delete button
+    var deleteButtonEl = document.createElement("button");
+    deleteButtonEl.textContent = "Delete";
+    deleteButtonEl.className = "btn delete-btn";
+    deleteButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(deleteButtonEl);
+        // create task status dropdown
+    var statusSelectEl = document.createElement("select");
+    statusSelectEl.className = "select-status";
+    statusSelectEl.setAttribute("name", "status-change");
+    statusSelectEl.setAttribute("data-task-id", taskId);
+        // Array that declares the dropdown <option> elements
+    var statusChoices = ["To Do", "In Progress", "Completed"];
+    for (var i = 0; i < statusChoices.length; i++) {
+            // create option element
+        var statusOptionEl = document.createElement("option");
+        statusOptionEl.textContent = statusChoices[i];
+        statusOptionEl.setAttribute("value", statusChoices[i]);
+      
+            // append to select
+        statusSelectEl.appendChild(statusOptionEl);
+    }
+
+    actionContainerEl.appendChild(statusSelectEl);
+
+    return actionContainerEl;
+};
 
 
     // Call for taskFormHandler()
