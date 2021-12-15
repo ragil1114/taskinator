@@ -120,7 +120,7 @@ var taskButtonHandler = function(event) {
     }
 };
 
-
+    // Function to edit task.
 var editTask = function(taskId) {
     console.log("editing task #" + taskId);
         // get task list item element
