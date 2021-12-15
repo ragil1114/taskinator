@@ -1,6 +1,6 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
-var pageContentEl = document.querySelector("#page-content");
+var pageContentEl = document.querySelector("#page-content");    // references the <main> element content's ID tags
 var taskIdCounter = 0;      // counter that increments by one each time a task is created (gives each task a unique id)
 
 
@@ -106,13 +106,25 @@ formEl.addEventListener("submit", taskFormHandler);
 
     // Function to declare action for delete button clicks.
 var taskButtonHandler = function(event) {
-        // tells you exactly when a delete button is clicked thru console.log(event.target)
-    if (event.target.matches(".delete-btn")) {
-            // get the element's task id
-        var taskId = event.target.getAttribute("data-task-id");
-            // Call for deleteTask()
+        // get target element from event
+    var targetEl = event.target;
+        // edit button was clicked
+    if (targetEl.matches(".edit-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
+        editTask(taskId);
+    } 
+        // delete button was clicked
+    else if (targetEl.matches(".delete-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
         deleteTask(taskId);
     }
+};
+
+
+var editTask = function(taskId) {
+    console.log("editing task #" + taskId);
+        // get task list item element
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
 };
 
 
