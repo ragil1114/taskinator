@@ -6,6 +6,7 @@ var tasksInProgressEl = document.querySelector("#tasks-in-progress");   // refer
 var tasksCompletedEl = document.querySelector("#tasks-completed");      // reference tasks-completed column
 var tasks = [];     // tasks array variable to reference for localStorage
 
+
     // Function that declares actions for form user input.
 var taskFormHandler = function(event) {
     event.preventDefault();
@@ -67,6 +68,8 @@ var createTaskEl = function(taskDataObj) {
     taskDataObj.id = taskIdCounter;
         // Array Method
     tasks.push(taskDataObj);
+
+    saveTasks();
 
         // increase task counter for next unique id
     taskIdCounter++;
@@ -135,9 +138,12 @@ var completeEditTask = function(taskName, taskType, taskId) {
     };
 
     alert("Task Updated!");
-        // to reset the form after edit submission
+        // remove data attribute from form
     formEl.removeAttribute("data-task-id");
+        // update formEl button to go back to saying "Add Task" instead of "Edit Task"
     document.querySelector("#save-task").textContent = "Add Task";
+
+    saveTasks();
 };
 
 
@@ -185,6 +191,7 @@ var taskStatusChangeHandler = function(event) {
             tasks[i].status = statusValue;
         }
     }
+    saveTasks();
 };
 
 
@@ -224,8 +231,15 @@ var deleteTask = function(taskId) {
 
         // reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr;
+
+    saveTasks();
 };
 
+    // Function to save tasks to localStorage
+var saveTasks = function() {
+        // JSON.stringify converts the objects in the array into strings to be saved into localStorage.
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 
     // create a new task
