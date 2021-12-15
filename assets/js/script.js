@@ -4,6 +4,7 @@ var pageContentEl = document.querySelector("#page-content");    // references th
 var taskIdCounter = 0;      // counter that increments by one each time a task is created (gives each task a unique id)
 var tasksInProgressEl = document.querySelector("#tasks-in-progress");   // reference tasks-in-progress column
 var tasksCompletedEl = document.querySelector("#tasks-completed");      // reference tasks-completed column
+var tasks = [];     // tasks array variable to reference for localStorage
 
     // Function that declares actions for form user input.
 var taskFormHandler = function(event) {
@@ -31,7 +32,8 @@ var taskFormHandler = function(event) {
     else {
         var taskDataObj = {
             name: taskNameInput,
-            type: taskTypeInput
+            type: taskTypeInput,
+            status: "to do"
         };
             // send it as an argument to createTaskEl()
         createTaskEl(taskDataObj);
@@ -60,6 +62,11 @@ var createTaskEl = function(taskDataObj) {
     listItemEl.appendChild(taskActionsEl);
         // add entire list item to <li>
     tasksToDoEl.appendChild(listItemEl);
+
+        // save task as an object with name, type, status, and id properties then push it into tasks array
+    taskDataObj.id = taskIdCounter;
+        // Array Method
+    tasks.push(taskDataObj);
 
         // increase task counter for next unique id
     taskIdCounter++;
@@ -119,6 +126,14 @@ var completeEditTask = function(taskName, taskType, taskId) {
     taskSelected.querySelector("h3.task-name").textContent = taskName;
     taskSelected.querySelector("span.task-type").textContent = taskType;
 
+        // loop through tasks array and task object with new content
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(taskId)) {
+            tasks[i].name = taskName;
+            tasks[i].type = taskType;
+        }
+    };
+
     alert("Task Updated!");
         // to reset the form after edit submission
     formEl.removeAttribute("data-task-id");
@@ -162,6 +177,13 @@ var taskStatusChangeHandler = function(event) {
     } 
     else if (statusValue === "completed") {
         tasksCompletedEl.appendChild(taskSelected);
+    }
+
+        // update task's in tasks array
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(taskId)) {
+            tasks[i].status = statusValue;
+        }
     }
 };
 
